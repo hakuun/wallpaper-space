@@ -2,8 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import prisma from "@/lib/prisma";
+import Modal from "@/components/modal";
 
-export default async function Home() {
+export default async function Home({
+  params,
+}: {
+  params: { photoId: string };
+}) {
   const images = await prisma.wallpaper.findMany({
     where: {
       isPublished: true,
@@ -12,14 +17,14 @@ export default async function Home() {
 
   return (
     <main className="mx-auto max-w-[1960px] p-4">
-      {/* {photoId && (
-          <Modal
-            images={images}
-            onClose={() => {
-              setLastViewedPhoto(photoId)
-            }}
-          />
-        )} */}
+      {params.photoId && (
+        <Modal
+          images={images}
+          onClose={() => {
+            // setLastViewedPhoto(photoId)
+          }}
+        />
+      )}
       <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4">
         {images.map(({ id, format, url, publicId }) => (
           <Link
