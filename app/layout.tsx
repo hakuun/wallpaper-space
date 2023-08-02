@@ -5,12 +5,13 @@ import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { AuthProvider } from "@/providers/auth-provider";
 import { ToastProvider } from "@/providers/toast-provider";
+import {Navbar} from '@/components/navbar'
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Wallpaper Space",
-  description: "Wallpaper Space",
+  description: "Switch Wallpaper Switch Mood",
 };
 
 export default function RootLayout({
@@ -22,7 +23,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" enableSystem={false}>
+            <Navbar />
             {children}
             <ToastProvider />
           </ThemeProvider>

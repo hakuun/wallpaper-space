@@ -3,12 +3,9 @@ import Link from "next/link";
 
 import prisma from "@/lib/prisma";
 import Modal from "@/components/modal";
+import { Wallpaper } from "@prisma/client";
 
-export default async function Home({
-  params,
-}: {
-  params: { photoId: string };
-}) {
+export default async function Home() {
   const images = await prisma.wallpaper.findMany({
     where: {
       isPublished: true,
@@ -16,16 +13,8 @@ export default async function Home({
   });
 
   return (
-    <main className="mx-auto max-w-[1960px] p-4">
-      {params.photoId && (
-        <Modal
-          images={images}
-          onClose={() => {
-            // setLastViewedPhoto(photoId)
-          }}
-        />
-      )}
-      <div className="columns-1 gap-4 sm:columns-2 xl:columns-3 2xl:columns-4">
+    <main className="mx-auto p-4">
+      <div className="columns-1 gap-4 sm:columns-2 lg:columns-2 xl:columns-3 2xl:columns-4">
         {images.map(({ id, format, url, publicId }) => (
           <Link
             key={id}
@@ -42,8 +31,8 @@ export default async function Home({
               placeholder="blur"
               blurDataURL={url}
               src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_720/${publicId}.${format}`}
-              width={720}
-              height={480}
+              width={414}
+              height={848}
               sizes="(max-width: 640px) 100vw,
                   (max-width: 1280px) 50vw,
                   (max-width: 1536px) 33vw,
