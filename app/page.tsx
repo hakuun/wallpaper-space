@@ -6,11 +6,14 @@ import Modal from "@/components/modal";
 import { Wallpaper } from "@prisma/client";
 
 export default async function Home() {
-  const images = await prisma.wallpaper.findMany({
-    where: {
-      isPublished: true,
-    },
-  });
+
+  const images:Wallpaper[] =[]
+
+  // const images = await prisma.wallpaper.findMany({
+  //   where: {
+  //     isPublished: true,
+  //   },
+  // });
 
   return (
     <main className="mx-auto p-4">

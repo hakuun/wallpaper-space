@@ -46,6 +46,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@svgr/webpack": "^8.0.1",
     "@types/bcrypt": "^5.0.0",
     "prisma": "^5.0.0"
   }
