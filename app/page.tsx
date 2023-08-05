@@ -5,19 +5,21 @@ import prisma from "@/lib/prisma";
 import Modal from "@/components/modal";
 import { Wallpaper } from "@prisma/client";
 
+// export const revalidate = 10
+
 export default async function Home() {
 
-  const images:Wallpaper[] =[]
+  // const images:Wallpaper[] =[]
 
-  // const images = await prisma.wallpaper.findMany({
-  //   where: {
-  //     isPublished: true,
-  //   },
-  // });
+  const images = await prisma.wallpaper.findMany({
+    where: {
+      isPublished: true,
+    },
+  });
 
   return (
     <main className="mx-auto p-4">
-      <div className="columns-1 gap-4 sm:columns-2 lg:columns-2 xl:columns-3 2xl:columns-4">
+      <div className="columns-1 gap-2 sm:columns-2 lg:columns-2 xl:columns-3 2xl:columns-4">
         {images.map(({ id, format, url, publicId }) => (
           <Link
             key={id}
@@ -36,10 +38,6 @@ export default async function Home() {
               src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_720/${publicId}.${format}`}
               width={414}
               height={848}
-              sizes="(max-width: 640px) 100vw,
-                  (max-width: 1280px) 50vw,
-                  (max-width: 1536px) 33vw,
-                  25vw"
             />
           </Link>
         ))}

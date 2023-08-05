@@ -22,7 +22,7 @@ export function Logo({ width = 28, height = 28, className }: LogoProps) {
 
 	return (
 		<div
-			className={cn("cursor-pointer", className)}
+			className={cn("cursor-pointer flex items-center", className)}
 			onClick={() => router.push("/")}
 		>
 			<LogoIcon width={width} height={height} />

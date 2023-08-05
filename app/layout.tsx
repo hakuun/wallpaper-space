@@ -6,7 +6,6 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { AuthProvider } from "@/providers/auth-provider";
 import { ToastProvider } from "@/providers/toast-provider";
 import { Navbar } from "@/components/navbar";
-import prisma from "@/lib/prisma";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,16 +19,12 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-
-	
-  const categories = await prisma.category.findMany()
-
 	return (
 		<html lang="en">
 			<body className={inter.className}>
 				<AuthProvider>
 					<ThemeProvider attribute="class" enableSystem={false}>
-						<Navbar  categories={categories} />
+						<Navbar />
 						{children}
 						<ToastProvider />
 					</ThemeProvider>
