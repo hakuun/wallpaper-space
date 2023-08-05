@@ -10,26 +10,26 @@ import { Navbar } from "@/components/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	title: "Wallpaper Space",
-	description: "Switch Wallpaper Switch Mood",
+  title: "Wallpaper Space",
+  description: "Switch Wallpaper Switch Mood",
 };
 
 export default async function RootLayout({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-	return (
-		<html lang="en">
-			<body className={inter.className}>
-				<AuthProvider>
-					<ThemeProvider attribute="class" enableSystem={false}>
-						<Navbar />
-						{children}
-						<ToastProvider />
-					</ThemeProvider>
-				</AuthProvider>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        <AuthProvider>
+          <ThemeProvider attribute="class" enableSystem={false}>
+            <Navbar />
+            {children}
+            <ToastProvider />
+          </ThemeProvider>
+        </AuthProvider>
+      </body>
+    </html>
+  );
 }
