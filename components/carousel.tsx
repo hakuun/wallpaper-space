@@ -1,32 +1,61 @@
 "use client";
 
-import { Wallpaper } from "@prisma/client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
+import { Wallpaper } from "@prisma/client";
 import SharedModal from "./shared-modal";
+import { useLastViewedPhoto } from "@/hooks/useLastViewedPhoto";
 
 interface CarouselProps {
   currentPhoto: Wallpaper;
+  images: Wallpaper[];
 }
 
-export default function Carousel({ currentPhoto }: CarouselProps) {
+export default function Carousel({ currentPhoto, images }: CarouselProps) {
+  const router = useRouter();
+  const [index, setIndex] = useState(0);
+  const [isLast, setIsLast] = useState(false);
+  const [isFirst, setIsFirst] = useState(false);
+  const [, setLastViewedPhoto] = useLastViewedPhoto();
+  const [currentImage, setCurrentImage] = useState(currentPhoto);
+
+  useEffect(() => {
+    const index = images.findIndex((img) => img.id === currentImage.id);
+    setIndex(index);
+    setIsFirst(() =>
+      images.some((img, index) => img.id === currentImage.id && index === 0)
+    );
+    setIsLast(() =>
+      images.some(
+        (img, index) =>
+          img.id === currentImage.id && index === images.length - 1
+      )
+    );
+  }, [currentImage, images]);
+
   function closeModal() {
-    // setLastViewedPhoto(currentPhoto.id)
-    // router.push('/', undefined, { shallow: true })
+    setLastViewedPhoto(currentImage.id);
+    router.push("/");
   }
 
-  function changePhotoId(newVal: number) {
-    return newVal;
+  function changePhotoId(id: string) {
+    const image = images.find((img) => img.id === id);
+    if (!image) return;
+    setCurrentImage(image);
+    window.history.pushState({}, "", `${window.location.origin}/p/${id}`);
   }
 
   return (
     <main className="fixed inset-0 flex items-center justify-center">
       <button
-        className="absolute inset-0 z-30 cursor-default bg-black backdrop-blur-2xl"
-        // onClick={closeModal}
+        className="absolute inset-0 z-30 cursor-default bg-black backdrop-blur blur-2xl"
+        onClick={closeModal}
       >
         <Image
-          src={currentPhoto.url}
+          // todo 使用缓存的图片
+          src={currentImage.url}
           className="pointer-events-none h-full w-full"
           alt="blurred background"
           fill
@@ -34,11 +63,13 @@ export default function Carousel({ currentPhoto }: CarouselProps) {
         />
       </button>
       <SharedModal
-        index={0}
+        isFirst={isFirst}
+        isLast={isLast}
+        index={index}
         changePhotoId={changePhotoId}
-        currentPhoto={currentPhoto}
+        currentPhoto={currentImage}
         closeModal={closeModal}
-        navigation={false}
+        images={images}
       />
     </main>
   );

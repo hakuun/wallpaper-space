@@ -14,12 +14,18 @@ export default async function PhotoPage({ params }: PhotoProps) {
     },
   });
 
+  const images = await prisma.wallpaper.findMany({
+    where: {
+      isPublished: true,
+    },
+  });
+
   if (!currentPhoto) return `Wallpaper not found`;
 
   return (
     <>
-      <main className="mx-auto max-w-[1960px] p-4">
-        <Carousel currentPhoto={currentPhoto} />
+      <main className="mx-auto p-4">
+        <Carousel images={images} currentPhoto={currentPhoto} />
       </main>
     </>
   );
