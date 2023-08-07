@@ -3,11 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useEffect } from "react";
 
-import { Wallpaper } from "@prisma/client";
 import { useLastViewedPhoto } from "@/hooks/useLastViewedPhoto";
+import { ImageProps } from "@/types/wallpaper";
+
+
 
 interface ImageFlowProps {
-  images: Wallpaper[];
+  images: ImageProps[];
 }
 
 export function ImageFlow({ images }: ImageFlowProps) {
@@ -28,7 +30,7 @@ export function ImageFlow({ images }: ImageFlowProps) {
       <div className="after:content relative mb-5 flex h-[629px] flex-col items-center justify-end gap-4 overflow-hidden rounded-lg bg-white/10 px-6 pb-16 pt-64 text-center text-white shadow-highlight after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight lg:pt-0">
         AD
       </div>
-      {images.map(({ id, publicId, format }) => (
+      {images.map(({ id, publicId, format, blurDataURL }) => (
         <Link
           key={id}
           href={`/?photoId=${id}`}
@@ -38,6 +40,8 @@ export function ImageFlow({ images }: ImageFlowProps) {
           className="after:content group relative mb-5 block w-full cursor-zoom-in after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:shadow-highlight"
         >
           <Image
+            placeholder="blur"
+            blurDataURL={blurDataURL}
             alt="wallpaper space"
             className="transform rounded-lg brightness-90 transition will-change-auto group-hover:brightness-100"
             style={{ transform: "translate3d(0, 0, 0)" }}
