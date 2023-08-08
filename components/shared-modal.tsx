@@ -10,11 +10,13 @@ import {
 } from "@heroicons/react/24/outline";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { variants } from "@/utils/animationVariants";
 import downloadPhoto from "@/utils/downloadPhoto";
 import { ImageProps } from "@/types/wallpaper";
+import { useScreen } from "@/hooks/useScreen";
+import { Wallpaper } from "@prisma/client";
 
 interface SharedModalProps {
 	index: number;
@@ -38,6 +40,22 @@ export default function SharedModal({
 	changePhotoId,
 }: SharedModalProps) {
 	const [loaded, setLoaded] = useState(false);
+	const { innerHeight, innerWidth } = useScreen();
+
+	function getImageSize(image: ImageProps): { width: number; height: number } {
+		const { width, height } = image;
+		let w = 0,
+			h = 0;
+		const ratio = width / height;
+		if (ratio > 0) {
+			h = innerHeight;
+			w = (innerHeight * width) / height;
+		} else {
+			w = innerWidth;
+			h = (innerWidth * height) / width;
+		}
+		return { width: w, height: h };
+	}
 
 	const filteredImages = images.filter((_, i) => {
 		const max = index + 15 > images.length - 1 ? images.length - 1 : index + 15;
@@ -75,12 +93,16 @@ export default function SharedModal({
 			}}
 		>
 			<div
-				className="relative z-50 flex aspect-[3/2] w-full max-w-7xl items-center wide:h-full xl:taller-than-854:h-auto"
+				style={{ aspectRatio: `${innerWidth}/${innerHeight}` }}
+				className="relative z-50 flex w-full h-full items-center "
 				{...handlers}
 			>
 				{/* Main image */}
-				<div className="w-full overflow-hidden">
-					<div className="relative flex aspect-[3/2] items-center justify-center">
+				<div className="w-full h-full overflow-hidden">
+					<div
+						style={{ aspectRatio: `${innerWidth}/${innerHeight}` }}
+						className="relative flex items-center justify-center"
+					>
 						<AnimatePresence initial={false} custom={direction}>
 							<motion.div
 								key={currentPhoto.id}
@@ -94,10 +116,9 @@ export default function SharedModal({
 								<Image
 									placeholder="blur"
 									blurDataURL={currentPhoto.blurDataURL}
-									src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_1280/${currentPhoto.publicId}.${currentPhoto.format}`}
-									width={1280}
-									height={853}
-									priority
+									width={getImageSize(currentPhoto).width}
+									height={getImageSize(currentPhoto).height}
+									src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/q_70/${currentPhoto.publicId}.${currentPhoto.format}`}
 									alt="Wallpaper Space"
 									onLoadingComplete={() => setLoaded(true)}
 								/>
@@ -107,10 +128,13 @@ export default function SharedModal({
 				</div>
 
 				{/* Buttons + bottom nav bar */}
-				<div className="absolute inset-0 mx-auto flex max-w-7xl items-center justify-center">
+				<div className="absolute inset-0 mx-auto flex w-11/12 h-full items-center justify-center">
 					{/* Buttons */}
 					{loaded && (
-						<div className="relative aspect-[3/2] max-h-full w-full">
+						<div
+							style={{ aspectRatio: `${innerWidth}/${innerHeight}` }}
+							className="relative max-h-full w-full"
+						>
 							<>
 								{!isFirst && (
 									<button

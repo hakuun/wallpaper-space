@@ -9,13 +9,13 @@ export async function getBase64ImageUrl(image: Wallpaper): Promise<string> {
 		return url;
 	}
 	const response = await fetch(
-		`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto,w_240/${image.publicId}.${image.format}`
+		`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_70,w_520/${image.publicId}.${image.format}`
 	);
 
-	const blob = await response.blob();
-	const buffer = Buffer.from(await blob.text());
-	url = "data:" + blob.type + ";base64," + buffer.toString("base64");
-
+	const contentType = response.headers.get("Content-Type");
+	const arrayBuffer = await response.arrayBuffer();
+	const buffer = Buffer.from(arrayBuffer);
+	url = "data:" + contentType + ";base64," + buffer.toString("base64");
 	cache.set(image, url);
 
 	return url;
