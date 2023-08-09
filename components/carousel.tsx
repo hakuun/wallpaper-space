@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import SharedModal from "./shared-modal";
-import { useLastViewedPhoto } from "@/hooks/useLastViewedPhoto";
+import { useLastViewedPhoto } from "@/hooks/useGlobalState";
 import { ImageProps } from "@/types/wallpaper";
 
 interface CarouselProps {

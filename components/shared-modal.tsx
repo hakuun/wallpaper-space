@@ -3,20 +3,18 @@
 import {
 	ArrowDownTrayIcon,
 	ArrowTopRightOnSquareIcon,
-	ArrowUturnLeftIcon,
 	ChevronLeftIcon,
 	ChevronRightIcon,
 	XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { variants } from "@/utils/animationVariants";
 import downloadPhoto from "@/utils/downloadPhoto";
 import { ImageProps } from "@/types/wallpaper";
 import { useScreen } from "@/hooks/useScreen";
-import { Wallpaper } from "@prisma/client";
 
 interface SharedModalProps {
 	index: number;
