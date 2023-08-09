@@ -1,23 +1,32 @@
 import { createGlobalState } from "react-hooks-global-state";
 
-import { ImageProps } from "@/types/wallpaper";
+import { ImageProps, Params } from "@/types/wallpaper";
 
 interface initialStateProps {
-	photoToScrollTo: string | null;
-	images: ImageProps[];
+  photoToScrollTo: string | null;
+  images: ImageProps[];
+  imageParams: Params;
 }
 
 const initialState: initialStateProps = {
-	photoToScrollTo: null,
-	images: [],
+  photoToScrollTo: null,
+  images: [],
+  imageParams: {
+    page: 1,
+    pageSize: 20,
+  },
 };
 
 const { useGlobalState } = createGlobalState(initialState);
 
 export const useLastViewedPhoto = () => {
-	return useGlobalState("photoToScrollTo");
+  return useGlobalState("photoToScrollTo");
 };
 
 export const useImages = () => {
-	return useGlobalState("images");
+  return useGlobalState("images");
+};
+
+export const useImageParams = () => {
+  return useGlobalState("imageParams");
 };
