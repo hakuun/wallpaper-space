@@ -11,10 +11,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import Image from "next/image";
+
+import downloadPhoto from "@/utils/downloadPhoto";
 import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { variants } from "@/utils/animationVariants";
-import downloadPhoto from "@/utils/downloadPhoto";
 import { ImageProps } from "@/types/wallpaper";
 import { useScreen } from "@/hooks/useScreen";
 
@@ -115,8 +116,6 @@ export default function SharedModal({
                 className="absolute"
               >
                 <Image
-                  placeholder="blur"
-                  blurDataURL={currentPhoto.blurDataURL}
                   width={getImageSize(currentPhoto).width}
                   height={getImageSize(currentPhoto).height}
                   src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,q_80,w_1280/${currentPhoto.publicId}.${currentPhoto.format}`}
@@ -199,7 +198,7 @@ export default function SharedModal({
               className="mx-auto mt-6 mb-6 flex aspect-[3/2] h-14"
             >
               <AnimatePresence initial={false}>
-                {filteredImages.map(({ publicId, format, id, blurDataURL }) => (
+                {filteredImages.map(({ publicId, format, id }) => (
                   <motion.button
                     initial={{
                       width: "0%",
@@ -222,8 +221,6 @@ export default function SharedModal({
                     } relative inline-block w-full shrink-0 transform-gpu overflow-hidden focus:outline-none`}
                   >
                     <Image
-                      placeholder="blur"
-                      blurDataURL={blurDataURL}
                       alt="small photos on the bottom"
                       width={180}
                       height={120}

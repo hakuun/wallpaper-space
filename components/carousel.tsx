@@ -5,21 +5,21 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import SharedModal from "./shared-modal";
-import { useLastViewedPhoto } from "@/hooks/useGlobalState";
+import { useImages, useLastViewedPhoto } from "@/hooks/useGlobalState";
 import { ImageProps } from "@/types/wallpaper";
 
 interface CarouselProps {
 	currentPhoto: ImageProps;
-	images: ImageProps[];
 }
 
-export default function Carousel({ currentPhoto, images }: CarouselProps) {
+export default function Carousel({ currentPhoto }: CarouselProps) {
 	const router = useRouter();
 	const [index, setIndex] = useState(0);
 	const [isLast, setIsLast] = useState(false);
 	const [isFirst, setIsFirst] = useState(false);
 	const [, setLastViewedPhoto] = useLastViewedPhoto();
 	const [currentImage, setCurrentImage] = useState(currentPhoto);
+	const [images, setImages] = useImages()
 
 	useEffect(() => {
 		const index = images.findIndex((img) => img.id === currentImage.id);
@@ -54,8 +54,6 @@ export default function Carousel({ currentPhoto, images }: CarouselProps) {
 				onClick={closeModal}
 			>
 				<Image
-					placeholder="blur"
-					blurDataURL={currentImage.blurDataURL}
 					src={currentImage.url}
 					className="pointer-events-none h-full w-full"
 					alt="blurred background"

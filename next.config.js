@@ -2,7 +2,7 @@
 const nextConfig = {
   images: {
     // formats: ['image/avif', 'image/webp'],
-    domains: ["res.cloudinary.com"],
+    domains: ["res.cloudinary.com", "naver.github.io"],
   },
   webpack(config, { isServer }) {
     // Configures webpack to handle SVG files with SVGR. SVGR optimizes and transforms SVG files

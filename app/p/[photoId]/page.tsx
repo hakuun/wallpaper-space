@@ -1,6 +1,5 @@
-import prisma from "@/lib/prisma";
 import Carousel from "@/components/carousel";
-import { generateImage, generateImages } from "@/utils/generateBlur";
+import { getImage } from "@/actions/get-images";
 
 interface PhotoProps {
 	params: {
@@ -9,27 +8,15 @@ interface PhotoProps {
 }
 
 export default async function PhotoPage({ params }: PhotoProps) {
-	const currentData = await prisma.wallpaper.findUnique({
-		where: {
-			id: params.photoId,
-		},
-	});
+	const currentPhoto = await getImage(params.photoId);
 
-	const data = await prisma.wallpaper.findMany({
-		where: {
-			isPublished: true,
-		},
-	});
 
-	if (!data || !currentData) return `Wallpaper not found`;
-
-	const currentPhoto = await generateImage(currentData);
-	const images = await generateImages(data);
+	if (!currentPhoto) return `Wallpaper not found`;
 
 	return (
 		<>
 			<main className="mx-auto p-4">
-				<Carousel images={images} currentPhoto={currentPhoto} />
+				<Carousel currentPhoto={currentPhoto} />
 			</main>
 		</>
 	);
