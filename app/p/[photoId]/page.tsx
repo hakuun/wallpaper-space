@@ -1,5 +1,4 @@
 import Carousel from "@/components/carousel";
-import { getImage } from "@/actions/get-images";
 
 interface PhotoProps {
 	params: {
@@ -8,15 +7,10 @@ interface PhotoProps {
 }
 
 export default async function PhotoPage({ params }: PhotoProps) {
-	const currentPhoto = await getImage(params.photoId);
-
-
-	if (!currentPhoto) return `Wallpaper not found`;
-
 	return (
 		<>
 			<main className="mx-auto p-4">
-				<Carousel currentPhoto={currentPhoto} />
+				<Carousel currentPhotoId={params.photoId} />
 			</main>
 		</>
 	);

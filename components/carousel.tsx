@@ -5,45 +5,51 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import SharedModal from "./shared-modal";
-import { useImages, useLastViewedPhoto } from "@/hooks/useGlobalState";
+import { useLastViewedPhoto } from "@/hooks/useGlobalState";
+import { useImages } from "@/hooks/useImages";
 import { ImageProps } from "@/types/wallpaper";
 
 interface CarouselProps {
-	currentPhoto: ImageProps;
+	currentPhotoId: string;
 }
 
-export default function Carousel({ currentPhoto }: CarouselProps) {
+export default function Carousel({ currentPhotoId }: CarouselProps) {
 	const router = useRouter();
 	const [index, setIndex] = useState(0);
 	const [isLast, setIsLast] = useState(false);
 	const [isFirst, setIsFirst] = useState(false);
 	const [, setLastViewedPhoto] = useLastViewedPhoto();
-	const [currentImage, setCurrentImage] = useState(currentPhoto);
-	const [images, setImages] = useImages()
+	const [currentImage, setCurrentImage] = useState<ImageProps>();
+	const [currentImageId, setcurrentImageId] = useState(currentPhotoId);
+	const { images } = useImages();
 
 	useEffect(() => {
-		const index = images.findIndex((img) => img.id === currentImage.id);
+		const current = images.find((img) => img.id === currentImageId);
+		const index = images.findIndex((img) => img.id === currentImageId);
 		setIndex(index);
+		setCurrentImage(current);
 		setIsFirst(() =>
-			images.some((img, index) => img.id === currentImage.id && index === 0)
+			images.some((img, index) => img.id === currentImageId && index === 0)
 		);
 		setIsLast(() =>
 			images.some(
-				(img, index) =>
-					img.id === currentImage.id && index === images.length - 1
+				(img, index) => img.id === currentImageId && index === images.length - 1
 			)
 		);
-	}, [currentImage, images]);
+	}, [currentImageId, images]);
+
+	if (!currentImage) return <div>Wallpaper Not Found</div>;
 
 	function closeModal() {
-		setLastViewedPhoto(currentImage.id);
+		setLastViewedPhoto(currentPhotoId);
 		router.push("/");
 	}
 
 	function changePhotoId(id: string) {
 		const image = images.find((img) => img.id === id);
 		if (!image) return;
-		setCurrentImage(image);
+		setcurrentImageId(id);
+		
 		window.history.pushState({}, "", `${window.location.origin}/p/${id}`);
 	}
 

@@ -3,10 +3,8 @@
 import {
   ArrowDownTrayIcon,
   ArrowTopRightOnSquareIcon,
-  ArrowUturnLeftIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  XMarkIcon,
   HomeIcon,
 } from "@heroicons/react/24/outline";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
@@ -198,7 +196,7 @@ export default function SharedModal({
               className="mx-auto mt-6 mb-6 flex aspect-[3/2] h-14"
             >
               <AnimatePresence initial={false}>
-                {filteredImages.map(({ publicId, format, id }) => (
+                {images.map(({ publicId, format, id }) => (
                   <motion.button
                     initial={{
                       width: "0%",
