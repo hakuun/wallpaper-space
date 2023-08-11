@@ -51,7 +51,9 @@ export default function Gallery() {
 		if (width <= 576) return 1;
 		if (width <= 960) return 2;
 		if (width <= 1440) return 3;
-		return 4;
+		if (width <= 1920) return 4;
+		if (width <= 2560) return 5;
+		return 6;
 	}
 
 	const gridImages = Array.from({ length: columns }, (_, index) => {
@@ -62,7 +64,15 @@ export default function Gallery() {
 		<>
 			{isEmpty ? <p>Yay, no wallpaper found.</p> : null}
 			<div
-				className={cn("gap-4 grid items-start", `grid-cols-` + `${columns}`)}
+				className={cn(
+					"gap-4 grid items-start",
+					columns === 1 ? `grid-cols-1` : "",
+					columns === 2 ? `grid-cols-2` : "",
+					columns === 3 ? `grid-cols-3` : "",
+					columns === 4 ? `grid-cols-4` : "",
+					columns === 5 ? `grid-cols-5` : "",
+					columns === 6 ? `grid-cols-6` : ""
+				)}
 			>
 				{gridImages.map((images, index) => {
 					return (

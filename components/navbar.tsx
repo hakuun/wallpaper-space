@@ -6,7 +6,7 @@ export async function Navbar() {
 
 	return (
 		<div className="bg-inherit w-full fixed z-50 p-4 border-b flex gap-8 justify-between items-center">
-			<Logo className="w-6 h-6 blod" width={30} height={30} />
+			<Logo className="w-8 h-8 font-bold" width={30} height={30} />
 
 			<NavbarMain />
 

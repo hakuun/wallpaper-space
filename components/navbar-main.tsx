@@ -29,7 +29,6 @@ export function NavbarMain() {
 
 	function handleCategoryClick(category: Category | null) {
 		setCurrentCategory(category && category.id);
-    
 	}
 
 	if (!isMounted || !data)
@@ -48,7 +47,7 @@ export function NavbarMain() {
 						handleCategoryClick(null);
 					}}
 					className={cn(
-						"transition-all sm:text-sm md:text-md lg:text-lg  cursor-pointer select-none",
+						"transition-all sm:text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl cursor-pointer select-none",
 						!currentCategory ? "font-bold scale-110" : ""
 					)}
 				>
@@ -61,7 +60,7 @@ export function NavbarMain() {
 								handleCategoryClick(category);
 							}}
 							className={cn(
-								"transition-all sm:text-sm md:text-md lg:text-lg  cursor-pointer select-none",
+								"transition-all sm:text-sm md:text-md lg:text-lg xl:text-xl 2xl:text-2xl  cursor-pointer select-none",
 								currentCategory === category.id ? "font-bold scale-110" : ""
 							)}
 							key={category.id}
