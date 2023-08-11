@@ -21,7 +21,7 @@ export default function Carousel({ currentPhotoId }: CarouselProps) {
 	const [, setLastViewedPhoto] = useLastViewedPhoto();
 	const [currentImage, setCurrentImage] = useState<ImageProps>();
 	const [currentImageId, setcurrentImageId] = useState(currentPhotoId);
-	const { images } = useImages();
+	const { images, setSize, size, isReachingEnd, isLoading } = useImages();
 
 	useEffect(() => {
 		const current = images.find((img) => img.id === currentImageId);
@@ -41,13 +41,17 @@ export default function Carousel({ currentPhotoId }: CarouselProps) {
 	if (!currentImage) return <div>Wallpaper Not Found</div>;
 
 	function closeModal() {
-		setLastViewedPhoto(currentPhotoId);
+		setLastViewedPhoto(currentImageId);
 		router.push("/");
 	}
 
 	function changePhotoId(id: string) {
 		const image = images.find((img) => img.id === id);
+		const index = images.findIndex((img) => img.id === id);
 		if (!image) return;
+		if(index >= images.length - 5 && !isReachingEnd && !isLoading) {
+			setSize(size + 1)
+		}
 		setcurrentImageId(id);
 		
 		window.history.pushState({}, "", `${window.location.origin}/p/${id}`);
@@ -68,6 +72,7 @@ export default function Carousel({ currentPhotoId }: CarouselProps) {
 				/>
 			</button>
 			<SharedModal
+				isLoading={isLoading}
 				isFirst={isFirst}
 				isLast={isLast}
 				index={index}

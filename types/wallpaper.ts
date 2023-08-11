@@ -1,7 +1,4 @@
-import { Wallpaper } from "@prisma/client";
-
 export interface ImageProps {
-  blurDataURL: string;
   id: string;
   createdAt: Date;
   updatedAt: Date;
