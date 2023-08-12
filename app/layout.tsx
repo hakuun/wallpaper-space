@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { ThemeProvider } from "@/providers/theme-provider";
-import { AuthProvider } from "@/providers/auth-provider";
+// import { AuthProvider } from "@/providers/auth-provider";
 import { ToastProvider } from "@/providers/toast-provider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,12 +21,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <ThemeProvider attribute="class" enableSystem={false}>
-            {children}
-            <ToastProvider />
-          </ThemeProvider>
-        </AuthProvider>
+        {/* <AuthProvider> */}
+        <ThemeProvider attribute="class" enableSystem={false}>
+          {children}
+          <ToastProvider />
+        </ThemeProvider>
+        {/* </AuthProvider> */}
       </body>
     </html>
   );
