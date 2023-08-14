@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from '@vercel/analytics/react';
 
 import { ThemeProvider } from "@/providers/theme-provider";
 // import { AuthProvider } from "@/providers/auth-provider";
@@ -24,6 +25,7 @@ export default async function RootLayout({
         {/* <AuthProvider> */}
         <ThemeProvider attribute="class" enableSystem={false}>
           {children}
+          <Analytics />
           <ToastProvider />
         </ThemeProvider>
         {/* </AuthProvider> */}

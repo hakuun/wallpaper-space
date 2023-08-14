@@ -6,7 +6,7 @@ import { ImageProps } from "@/types/wallpaper";
 
 export function useImages(
 	params = {
-		PAGE_SIZE: 10,
+		PAGE_SIZE: 30,
 		categoryId: "",
 	}
 ) {
